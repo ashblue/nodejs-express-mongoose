@@ -1,0 +1,25 @@
+<% include ../header.ejs %>
+
+<h1>Photos</h1>
+<p>
+    Express stock photo application. <br/>
+    <a href="/upload">Upload File</a>
+</p>
+
+<div id="photos">
+    <div class="photo">
+        <h2><%= photo.name %></h2>
+        <img src="/photos/<%= photo.path %>" />
+        <a href="/photo/<%= photo.id %>/download">Download</a>
+        <a href="#" onclick="$.ajax({ url: document.URL, type: 'DELETE' });">Delete</a>
+    </div>
+</div>
+
+<form method="post" action="/photo/<%= photo.id %>" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="PUT" />
+    <p><input type="text" name="name" placeholder="Name" value="<%= photo.name %>" /></p>
+    <p><input type="file" name="photo[image]" /></p>
+    <p><input type="submit" value="Update" /></p>
+</form>
+
+<% include ../footer.ejs %>
