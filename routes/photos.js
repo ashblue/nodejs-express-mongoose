@@ -25,7 +25,6 @@ exports.show = function (req, res) {
     });
 };
 
-
 // @TODO The image retrieval can be a reusable method
 exports.update = function (dir) {
     return function (req, res) {
@@ -105,11 +104,16 @@ exports.search = function (req, res, next) {
         if (err) return next(err);
         var search = new RegExp(fields.search, 'i');
 
-        Photo.find({ name: search }, function (err, photos) {
+        Photo.find({ name: search }, function (err, results) {
             if (err) return err;
-            res.render('photos/search', {
-                title: 'Photo Search Results',
-                photo: photos
+
+            Photo.find({}, function (err, photos) {
+                if (err) return next(err);
+                res.render('photos', {
+                    title: 'Photos',
+                    photos: photos,
+                    results: results
+                });
             });
         });
     });

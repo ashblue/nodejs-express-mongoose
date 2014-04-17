@@ -14,7 +14,24 @@
                 <img src="/photos/<%= photo.path %>" />
             </a>
         </div>
-    <% }) %>
+    <% }); %>
+
+    <form method="post" enctype="multipart/form-data">
+        <p><input type="text" name="search" placeholder="Search" /></p>
+        <p><input type="submit" value="Search" /></p>
+    </form>
+
+    <% if (locals.results) { %>
+        <h3>Search Results</h3>
+        <% results.forEach(function (result) { %>
+            <div class="photo">
+                <h4><%= result.name %></h4>
+                <a href="/photo/<%= result.id %>">
+                    <img src="/photos/<%= result.path %>" />
+                </a>
+            </div>
+        <% }); %>
+    <% } %>
 </div>
 
 <% include ../footer.ejs %>
