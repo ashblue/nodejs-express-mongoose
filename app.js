@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -17,18 +18,18 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-/* BEGIN Custom settings */
-photos(app);
-settings(app);
-app.use('/scripts', express.static(__dirname + '/app/bower_components'));
-/* END Custom Settings */
-
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/* BEGIN Custom settings */
+photos(app);
+settings(app);
+app.use('/scripts', express.static(__dirname + '/app/bower_components'));
+/* END Custom Settings */
 
 app.use('/', routes);
 app.use('/users', users);

@@ -117,4 +117,48 @@ exports.search = function (req, res, next) {
             });
         });
     });
-}
+};
+
+exports.apiAll = function (req, res) {
+    Photo.find({}, function (err, photos) {
+        if (err) return err;
+        res.send(photos);
+    });
+};
+
+exports.apiUpdate = function (req, res) {
+    Photo.findById(req.params.id, function (err, photo) {
+        if (err) return err;
+
+        photo.name = req.body.name;
+        photo.save(function (err) {
+            if (!err) {
+                console.log('updated');
+            } else {
+                console.log(err);
+            }
+            return res.send(photo);
+        });
+    });
+};
+
+exports.apiSearch = function (req, res) {
+    var search = new RegExp(req.body.search, 'i');
+
+    Photo.find({ name: search }, function (err, results) {
+        if (err) return err;
+        res.send(results);
+    });
+};
+
+exports.apiCompile = function (req, res) {
+    Photo.find({}, function (err, photos) {
+        if (err) return err;
+
+        // Serialize JSON into a string
+        fs.writeFile('my.js', JSON.stringify(photos), function () {
+            if (err) return err;
+            res.send('wrote to /tmp/my.js');
+        });
+    });
+};
